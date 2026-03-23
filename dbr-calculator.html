@@ -570,15 +570,6 @@ input[type="number"].err {
       </div>
     </div>
 
-    <div class="field">
-      <div class="field-lbl">أكبر قسط منفرد</div>
-      <div class="input-wrap">
-        <input type="number" id="singleInstallment" placeholder="0" min="0" inputmode="decimal" oninput="calc()">
-        <span class="input-sfx"><span class="sar-icon"></span></span>
-      </div>
-      <div class="err-msg" id="err-single">لا يمكن إدخال قيمة سالبة</div>
-    </div>
-
     <div class="field" style="margin-top:14px;">
       <div class="field-lbl">نوع المقترض</div>
       <div class="tgroup">
@@ -796,51 +787,6 @@ input[type="number"].err {
       ⚠️ هذا التوزيع تعليمي — الأولوية الفعلية تحددها جهة التمويل وسياسة ساما المعمول بها.
     </div>
   </div>
-    <div class="status-bar">
-      <span class="status-lbl">نسبة عبء الدين</span>
-      <span class="spill neutral" id="spill">
-        <span class="sdot" id="sdot"></span>
-        <span id="spill-txt">أدخل البيانات</span>
-      </span>
-    </div>
-    <div class="dbr-display">
-      <div class="dbr-lbl">DEBT BURDEN RATIO</div>
-      <div class="dbr-num neutral" id="dbr-num">0.00<span class="unit">%</span></div>
-    </div>
-    <div class="prog-section">
-      <div class="prog-labels">
-        <span>0%</span>
-        <span>مستخدم: <span id="dbr-used">0.00%</span></span>
-        <span style="color:var(--accent)">الحد: <span id="limit-lbl">--</span></span>
-      </div>
-      <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
-      <div class="prog-caption" id="prog-txt">أدخل بياناتك لعرض نسبة عبء الدين</div>
-    </div>
-    <div class="metrics">
-      <div class="metric">
-        <div class="m-lbl">الحد الأقصى المسموح</div>
-        <div class="m-val" id="m-limit">--<span style="font-size:.7em;font-weight:400">%</span></div>
-        <div class="m-sub" id="m-limit-type">حسب نوع التمويل</div>
-        <div id="tier3-warn" class="info-pill" style="display:none;margin-top:6px;font-size:11px;">
-          ⚠️ الشريحة الثالثة (&gt;25k): الحد 65% مبدأياً — القرار النهائي لسياسة البنك
-        </div>
-      </div>
-      <div class="metric">
-        <div class="m-lbl">المتبقي من النسبة</div>
-        <div class="m-val" id="m-remain">--<span style="font-size:.7em;font-weight:400">%</span></div>
-        <div class="m-sub">هامش الأمان</div>
-      </div>
-      <div class="metric">
-        <div class="m-lbl">القسط المتاح الإضافي</div>
-        <div class="m-val" id="m-avail">--</div>
-        <div class="m-sub">أقصى قسط يمكن إضافته</div>
-      </div>
-      <div class="metric">
-        <div class="m-lbl">إجمالي الالتزامات</div>
-        <div class="m-val" id="m-total">--</div>
-        <div class="m-sub">تمويلات + BNPL</div>
-      </div>
-    </div>
   </div>
 
   <!-- Footer -->
@@ -967,7 +913,7 @@ function validate(salary, loans, bnpl) {
 
 // ── RESET ──
 function resetAll() {
-  ['salary','loans','bnpl','singleInstallment'].forEach(id => {
+  ['salary','loans','bnpl'].forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
     el.value = '';
@@ -986,8 +932,6 @@ function calc() {
   const salary = parseFloat(document.getElementById('salary').value) || null;
   const loans  = parseFloat(document.getElementById('loans').value)  || 0;
   const bnpl   = parseFloat(document.getElementById('bnpl').value)   || 0;
-
-  const singleInstallment = parseFloat(document.getElementById('singleInstallment').value) || 0;
 
   if (!validate(salary, loans, bnpl) || !salary) { renderEmpty(); return; }
 
@@ -1009,22 +953,11 @@ function calc() {
   const avail  = (limit / 100 * salary) - total;
   const ratio  = dbr / limit;
 
-  // Single installment check
-  const singleLim = getSingleInstallmentLimit();
-  const singlePct = (singleInstallment / salary) * 100;
   const warnBox = document.getElementById('installment-warn-box');
   const warnMsg = document.getElementById('installment-warn-msg');
   const tierNote = getTierNote(salary);
 
-  // Build warning message
-  let warnText = '';
-  if (singleInstallment > 0 && singlePct > singleLim) {
-    warnText = 'القسط المنفرد (' + fmt(singlePct) + '%) يتجاوز حد القسط المنفرد (' + singleLim + '%) — ' +
-               (S.borrower === 'employee' ? 'للموظف' : 'للمتقاعد') + '. تحقق مع جهة التمويل.';
-  }
-  if (tierNote) {
-    warnText = (warnText ? warnText + '<br>' : '') + tierNote;
-  }
+  let warnText = tierNote || '';
 
   if (warnText) {
     warnBox.style.display = 'block';
