@@ -64,6 +64,112 @@ body {
   top: -0.05em;
 }
 
+/* ── RESTRUCTURING ALERT ── */
+.restruc-box {
+  display: none;
+  margin: 10px 0;
+  border-radius: 12px;
+  border: 2px solid #dc2626;
+  background: #fff5f5;
+  overflow: hidden;
+  animation: slideIn 0.35s ease;
+}
+@keyframes slideIn {
+  from { opacity:0; transform:translateY(-8px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.restruc-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  color: #fff;
+}
+.restruc-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.restruc-title {
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.3;
+  font-family: 'Tajawal', sans-serif;
+}
+.restruc-subtitle {
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+.restruc-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.restruc-right {
+  background: #fff;
+  border: 1.5px solid #fca5a5;
+  border-radius: 9px;
+  padding: 11px 13px;
+}
+.restruc-right-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: #dc2626;
+  margin-bottom: 5px;
+}
+.restruc-right-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 11px;
+  color: #374151;
+  line-height: 1.55;
+  margin-bottom: 4px;
+}
+.restruc-right-item:last-child { margin-bottom: 0; }
+.restruc-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #dc2626;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.restruc-mandatory {
+  background: linear-gradient(135deg, #fff7ed, #fef3c7);
+  border: 1.5px solid #f59e0b;
+  border-radius: 9px;
+  padding: 10px 13px;
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+}
+.restruc-mandatory-icon { font-size: 18px; flex-shrink: 0; }
+.restruc-mandatory-text {
+  font-size: 11px;
+  color: #92400e;
+  line-height: 1.6;
+  font-weight: 600;
+}
+.restruc-mandatory-text strong {
+  color: #b45309;
+  display: block;
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+.restruc-entity {
+  display: inline-block;
+  background: #dc2626;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-bottom: 6px;
+}
+
 /* ── NAV ── */
 .nav {
   position: fixed;
@@ -707,6 +813,44 @@ input[type="number"].err {
 
   <!-- Priority Breakdown -->
   <div class="sec-label">توزيع الاستقطاع حسب الأولوية</div>
+  <!-- ── RESTRUCTURING ALERT ── -->
+  <div class="restruc-box" id="restruc-box">
+    <div class="restruc-header">
+      <div class="restruc-icon">⚖️</div>
+      <div>
+        <div class="restruc-title">يحق لك طلب إعادة الجدولة</div>
+        <div class="restruc-subtitle" id="restruc-subtitle">تجاوزت الحد المسموح به — الجهة الممولة ملزمة بالنظر في طلبك</div>
+      </div>
+    </div>
+    <div class="restruc-body">
+
+      <div class="restruc-right">
+        <div class="restruc-right-title" id="restruc-entity-title">🏦 البنك</div>
+        <div class="restruc-right-item">
+          <div class="restruc-dot"></div>
+          <span id="restruc-threshold-text">نسبة عبء الدين لديك تجاوزت 33.33% من الراتب لدى البنك</span>
+        </div>
+        <div class="restruc-right-item">
+          <div class="restruc-dot"></div>
+          <span>يحق لك تقديم طلب رسمي لإعادة جدولة التزاماتك وتمديد فترة السداد</span>
+        </div>
+        <div class="restruc-right-item">
+          <div class="restruc-dot"></div>
+          <span>قدّم الطلب عبر تطبيق الجهة الممولة أو بالحضور المباشر لأقرب فرع</span>
+        </div>
+      </div>
+
+      <div class="restruc-mandatory">
+        <div class="restruc-mandatory-icon">📌</div>
+        <div class="restruc-mandatory-text">
+          <strong id="restruc-mandatory-title">إعادة الجدولة إلزامية على الجهة الممولة</strong>
+          <span id="restruc-mandatory-body">بموجب تعليمات البنك المركزي السعودي (ساما)، يجب على البنك قبول طلب إعادة الجدولة عند تجاوز الحد المقرر — <strong style="color:#92400e">ولا يتحمل العميل أي رسوم أو تكاليف إضافية</strong> جراء إعادة الجدولة.</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <div class="card fade" id="priority-card" style="display:none;">
     <div style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.7;">
       ساما تحدد أولوية الاستقطاع — البنوك تأخذ حصتها أولاً، ثم تأتي شركات التمويل والبطاقات من المتبقي.
@@ -1022,6 +1166,9 @@ function calc() {
 
   // ── PRIORITY BREAKDOWN ──
   updatePriority(salary, total);
+
+  // ── RESTRUCTURING ALERT ──
+  updateRestruc(salary, dbr);
 }
 
 // ── PRIORITY BREAKDOWN ──
@@ -1100,6 +1247,79 @@ function updateSim(salary, total) {
   }
 }
 
+// ── RESTRUCTURING ALERT ──
+function updateRestruc(salary, dbr) {
+  const box = document.getElementById('restruc-box');
+  if (!box) return;
+
+  // Determine which threshold applies and whether it's exceeded
+  let show = false;
+  let entityTitle = '';
+  let thresholdText = '';
+  let mandatoryTitle = '';
+  let mandatoryBody = '';
+  let subtitle = '';
+
+  const bankThreshold    = 33.33;
+  const noMortgageThreshold = S.borrower === 'retiree' ? 35 : 45;
+  const unsupThreshold   = (salary < 15000) ? 55 : 65;
+  const supThreshold     = 65;
+
+  if (!S.hasMortgage) {
+    // No mortgage: check against 45% (or 35% for retirees)
+    if (dbr > noMortgageThreshold) {
+      show = true;
+      const pct = S.borrower === 'retiree' ? '35%' : '45%';
+      entityTitle = '🏢 شركة التمويل';
+      subtitle = 'تجاوزت حد ' + pct + ' بدون قرض عقاري — الجهة ملزمة بالنظر في طلبك';
+      thresholdText = 'نسبة عبء الدين لديك (' + dbr.toFixed(2) + '%) تجاوزت الحد المسموح به (' + pct + ') لشركة التمويل بدون قرض عقاري';
+      mandatoryTitle = 'إعادة الجدولة إلزامية على شركة التمويل';
+      mandatoryBody = 'بموجب تعليمات البنك المركزي السعودي (ساما)، يجب على شركة التمويل قبول طلب إعادة الجدولة عند تجاوز الحد المقرر — <strong style="color:#92400e">ولا يتحمل العميل أي رسوم أو تكاليف إضافية</strong> جراء إعادة الجدولة.';
+    }
+    // Also check bank threshold separately (33.33%)
+    else if (dbr > bankThreshold) {
+      show = true;
+      entityTitle = '🏦 البنك';
+      subtitle = 'تجاوزت حد 33.33% لدى البنك — يحق لك طلب إعادة الجدولة';
+      thresholdText = 'نسبة عبء الدين لديك (' + dbr.toFixed(2) + '%) تجاوزت الحد المسموح به (33.33%) لدى البنك';
+      mandatoryTitle = 'إعادة الجدولة إلزامية على البنك';
+      mandatoryBody = 'بموجب تعليمات البنك المركزي السعودي (ساما)، يجب على البنك قبول طلب إعادة الجدولة عند تجاوز الحد المقرر — <strong style="color:#92400e">ولا يتحمل العميل أي رسوم أو تكاليف إضافية</strong> جراء إعادة الجدولة.';
+    }
+  } else if (S.type === 'supported') {
+    // Supported mortgage: threshold is 65%
+    if (dbr > supThreshold) {
+      show = true;
+      entityTitle = '🏦 البنك / شركة التمويل';
+      subtitle = 'تجاوزت حد 65% مع القرض العقاري المدعوم — الجهة ملزمة بالنظر في طلبك';
+      thresholdText = 'نسبة عبء الدين لديك (' + dbr.toFixed(2) + '%) تجاوزت الحد المسموح به (65%) مع وجود قرض عقاري مدعوم';
+      mandatoryTitle = 'إعادة الجدولة إلزامية على الجهة الممولة';
+      mandatoryBody = 'بموجب تعليمات البنك المركزي السعودي (ساما)، يجب على الجهة الممولة قبول طلب إعادة الجدولة عند تجاوز الحد المقرر — <strong style="color:#92400e">ولا يتحمل العميل أي رسوم أو تكاليف إضافية</strong> جراء إعادة الجدولة.';
+    }
+  } else {
+    // Unsupported mortgage: threshold is 55% (<15k) or 65% (≥15k)
+    if (dbr > unsupThreshold) {
+      show = true;
+      const pct = unsupThreshold + '%';
+      entityTitle = '🏦 البنك / شركة التمويل';
+      subtitle = 'تجاوزت حد ' + pct + ' مع القرض العقاري غير المدعوم — الجهة ملزمة بالنظر في طلبك';
+      thresholdText = 'نسبة عبء الدين لديك (' + dbr.toFixed(2) + '%) تجاوزت الحد المسموح به (' + pct + ') مع وجود قرض عقاري غير مدعوم';
+      mandatoryTitle = 'إعادة الجدولة إلزامية على الجهة الممولة';
+      mandatoryBody = 'بموجب تعليمات البنك المركزي السعودي (ساما)، يجب على الجهة الممولة قبول طلب إعادة الجدولة عند تجاوز الحد المقرر — <strong style="color:#92400e">ولا يتحمل العميل أي رسوم أو تكاليف إضافية</strong> جراء إعادة الجدولة.';
+    }
+  }
+
+  if (show) {
+    document.getElementById('restruc-subtitle').textContent    = subtitle;
+    document.getElementById('restruc-entity-title').textContent = entityTitle;
+    document.getElementById('restruc-threshold-text').textContent = thresholdText;
+    document.getElementById('restruc-mandatory-title').textContent = mandatoryTitle;
+    document.getElementById('restruc-mandatory-body').innerHTML   = mandatoryBody;
+    box.style.display = 'block';
+  } else {
+    box.style.display = 'none';
+  }
+}
+
 // ── EMPTY ──
 function renderEmpty() {
   document.getElementById('res-card').className = 'res-card fade';
@@ -1133,6 +1353,8 @@ function renderEmpty() {
   if (t3w) t3w.style.display = 'none';
   const pc = document.getElementById('priority-card');
   if (pc) pc.style.display = 'none';
+  const rb = document.getElementById('restruc-box');
+  if (rb) rb.style.display = 'none';
 }
 
 // ── INIT ──
